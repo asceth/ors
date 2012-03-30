@@ -33,6 +33,13 @@ module ORS
                               %(git submodule update --init)
     end
 
+    def precompile_assets server
+      info "[#{server}] precompiling assets..."
+
+      execute_command server, prepare_environment,
+                              %(if [ -f app/assets/stylesheets/application.css ]; then rm -rf public/assets && RAILS_ENV=#{environment} bundle exec rake assets:precompile; fi)
+    end
+
     def bundle_install server
       info "[#{server}] installing bundle..."
 

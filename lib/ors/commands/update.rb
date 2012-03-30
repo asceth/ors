@@ -10,6 +10,8 @@ module ORS::Commands
 
       execute_command cron_server, prepare_environment,
                                    %(if [ -f config/schedule.rb ]; then bundle exec whenever --update-crontab --set environment=#{environment} -i #{name}_#{environment}; fi)
+
+      execute_in_parallel(all_servers) {|server| precompile_assets server }
     end
 
   end
